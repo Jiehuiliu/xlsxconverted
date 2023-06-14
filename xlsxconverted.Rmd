@@ -1,0 +1,75 @@
+---
+title: "turned around file"
+output: html_document
+date: "2023-06-02"
+---
+
+```{r}
+library(readxl)
+
+plate1_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 1")
+plate2_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 2")
+plate3_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 3")
+plate4_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 4")
+plate5_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 5")
+plate6_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 6")
+plate7_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 7")
+plate8_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 8")
+plate9_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 9")
+plate10_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 10")
+plate11_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 11")
+plate12_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 12")
+plate13_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 13")
+plate14_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 14")
+plate15_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 15")
+plate16_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 16")
+plate17_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 17")
+plate18_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 18")
+plate19_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 19")
+plate20_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 20")
+plate21_526 <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = "Plate 21")
+
+# Take the plate1 as an example: 
+# Extract values in excel xlsx file from range B55 to M62 but turned around the order: 
+vals <- plate1_526[61:54, 13:2]; vals
+
+
+# Assign the reversed values back to the original cells
+plate1_526[54:61, 2:13] <- vals
+plate1_526
+
+#generate a csv file for plate1_526 in empty cells
+# To generate a csv file, use the write.csv function
+write.csv(plate1_526, "plate1_526.csv", row.names = FALSE)
+
+#now create a for loop to do above procedures for each plate
+#Instead of reading each sheet one by one, I can use a for loop to read all the sheets in the excel file.
+
+# Create an empty list to store data frames
+plate_list <- list()
+
+# Use a for loop to read all sheets in the excel file
+for (i in 1:21) {
+  # Read the i-th sheet and store it in a data frame
+  sheet_name <- paste0("Plate ", i)
+  sheet_data <- read_excel("SRT_96_Chlorophyll_20230526_SRT_20230602_154539.xlsx", sheet = sheet_name)
+  
+  # Extract values in range B55 to M62
+  vals <- sheet_data[61:54, 13:2]
+  
+  # Assign the reversed values back to the original cells
+  sheet_data[54:61, 2:13] <- vals
+  
+  # Add the data frame to the list
+  plate_list[[i]] <- sheet_data
+  
+  # Generate a csv file for each plate
+  csv_name <- paste0("plate", i, "_526.csv")
+  write.csv(sheet_data, csv_name, row.names = FALSE)
+}
+
+```
+
+
+
+
